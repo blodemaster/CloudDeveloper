@@ -18,13 +18,16 @@ script:
   - docker build -t udagram-api-feeditem -f Microservice/udagram-api-feeditem/Dockerfile Microservice/udagram-api-feeditem
   - docker build -t udagram-api-user -f Microservice/udagram-api-user/Dockerfile Microservice/udagram-api-user
   - docker build -t udagram-frontend -f Microservice/udagram-frontend/Dockerfile Microservice/udagram-frontend
+  - docker build -t udagram-reverse-proxy -f Microservice/udagram-reverse-proxy/Dockerfile Microservice/udagram-reverse-proxy
   - docker tag udagram-api-feeditem blodemaster/udagram-api-feeditem:latest
   - docker tag udagram-api-user blodemaster/udagram-api-user:latest
   - docker tag udagram-frontend blodemaster/udagram-frontend:latest
+  - docker tag udagram-reverse-proxy blodemaster/udagram-reverse-proxy:latest
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push blodemaster/udagram-api-feeditem:latest
   - docker push blodemaster/udagram-api-user:latest
   - docker push blodemaster/udagram-frontend:latest
+  - docker push blodemaster/udagram-reverse-proxy:latest
 
