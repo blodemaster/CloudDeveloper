@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-user
+  labels:
+    app: api-user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-user
+  template:
+    metadata:
+      labels:
+        app: api-user
+    spec:
+      containers:
+      - name: api-user
+        image: blodemaster/udagram-api-user:latest
+        ports:
+        - containerPort: 8080

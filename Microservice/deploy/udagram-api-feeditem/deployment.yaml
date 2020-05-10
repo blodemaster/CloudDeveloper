@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-feeditem
+  labels:
+    app: api-feeditem
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-feeditem
+  template:
+    metadata:
+      labels:
+        app: api-feeditem
+    spec:
+      containers:
+      - name: api-feeditem
+        image: blodemaster/udagram-api-feeditem:latest
+        ports:
+        - containerPort: 8080
