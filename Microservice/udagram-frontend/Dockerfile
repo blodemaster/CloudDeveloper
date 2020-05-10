@@ -14,6 +14,9 @@ RUN npm install
 # Copy app source
 COPY . .
 
+# Install ionic
+RUN npm install -g @ionic/cli
+
 # build the file
 RUN ionic build
 
