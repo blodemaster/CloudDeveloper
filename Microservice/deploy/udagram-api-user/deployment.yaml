@@ -18,4 +18,34 @@ spec:
       - name: api-user
         image: blodemaster/udagram-api-user:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 8020
+        env:
+        - name: POSTGRES_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: db_name
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: host
+        - name: URL
+          value: http://localhost:8100
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jwt-secret
+              key: secret
+        - name: PORT
+          value: 8020

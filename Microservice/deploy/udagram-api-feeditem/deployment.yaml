@@ -18,4 +18,46 @@ spec:
       - name: api-feeditem
         image: blodemaster/udagram-api-feeditem:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 8010
+        env:
+          - name: POSTGRES_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: password
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: db_name
+          - name: POSTGRES_HOST
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: host
+          - name: AWS_REGION
+            value: eu-north-1
+          - name: AWS_PROFILE
+            valueFrom:
+              secretKeyRef:
+                name: aws-secret
+                key: profile
+          - name: AWS_BUCKET
+            valueFrom:
+              secretKeyRef:
+                name: aws-secret
+                key: bucket
+          - name: URL
+            value: http://localhost:8100
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secret
+                key: secret
+          - name: PORT
+            value: 8010
