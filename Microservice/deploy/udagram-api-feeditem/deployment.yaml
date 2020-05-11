@@ -60,4 +60,4 @@ spec:
                 name: jwt-secret
                 key: secret
           - name: PORT
-            value: 8010
+            value: "8010"
