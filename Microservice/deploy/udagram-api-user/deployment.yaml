@@ -19,6 +19,13 @@ spec:
         image: blodemaster/udagram-api-user:latest
         ports:
         - containerPort: 8020
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"  
         env:
         - name: POSTGRES_USERNAME
           valueFrom:
