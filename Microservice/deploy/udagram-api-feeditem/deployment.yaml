@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-feeditem
+  labels:
+    app: api-feeditem
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-feeditem
+  template:
+    metadata:
+      labels:
+        app: api-feeditem
+    spec:
+      containers:
+      - name: api-feeditem
+        image: blodemaster/udagram-api-feeditem:latest
+        ports:
+        - containerPort: 8010
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"  
+        env:
+          - name: POSTGRES_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: password
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: db_name
+          - name: POSTGRES_HOST
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: host
+          - name: AWS_REGION
+            value: eu-north-1
+          - name: AWS_PROFILE
+            valueFrom:
+              secretKeyRef:
+                name: aws-secret
+                key: profile
+          - name: AWS_BUCKET
+            valueFrom:
+              secretKeyRef:
+                name: aws-secret
+                key: bucket
+          - name: URL
+            value: http://localhost:8100
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secret
+                key: secret
+          - name: PORT
+            value: "8010"
