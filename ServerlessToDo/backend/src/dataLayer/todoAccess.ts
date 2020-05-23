@@ -39,11 +39,14 @@ export class TodoAccess {
                 todoId,
                 userId,
             },
-            UpdateExpression: "set name = :n, dueDate = :due, done = :done",
+            UpdateExpression: "set #n = :n, dueDate = :due, done = :done",
             ExpressionAttributeValues: {
                 ":n": toUpdate.name,
                 ":due": toUpdate.dueDate,
                 ":done": toUpdate.done
+            },
+            ExpressionAttributeNames: {
+                "#n": "name",
             }
         }).promise()
     }
