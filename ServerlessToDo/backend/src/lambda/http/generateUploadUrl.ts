@@ -2,6 +2,8 @@ import 'source-map-support/register'
 import * as AWS  from 'aws-sdk'
 import * as AWSXRay from 'aws-xray-sdk'
 import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } from 'aws-lambda'
+import { getUserId } from '../utils'
+import { setAttachmentUrl } from '../../businessLogic/todos'
 
 const XAWS = AWSXRay.captureAWS(AWS)
 const s3 = new XAWS.S3({
@@ -21,8 +23,12 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     Expires: urlExpiration
   })
 
+  const attachmentUrl = `https://${bucketName}.s3.amazonaws.com/${todoId}`
+  const userId = getUserId(event)
+  await setAttachmentUrl(todoId, userId, attachmentUrl)
+
   return {
-    statusCode: 204,
+    statusCode: 200,
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true
