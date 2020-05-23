@@ -66,7 +66,12 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
   const jwks = resp.data;
   const signedKey = jwks.keys.find((key: {kid: string }) => key.kid === kid);
 
-  return verify(token, signedKey.x5c, { algorithms: ['RS256']}) as JwtPayload
+  if (signedKey === undefined) {
+    throw new Error("Key does not exist")
+  }
+
+  const cert = `-----BEGIN CERTIFICATE-----\n${signedKey.x5c[0]}\n-----END CERTIFICATE-----`;
+  return verify(token, cert, { algorithms: ['RS256']}) as JwtPayload
 }
 
 function getToken(authHeader: string): string {
