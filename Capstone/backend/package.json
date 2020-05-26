@@ -1,0 +1,31 @@
+{
+  "name": "moments-backend",
+  "version": "1.0.0",
+  "description": "moments poject",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dongjie",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.51",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/node": "^14.0.5",
+    "aws-sdk": "^2.683.0",
+    "serverless-aws-documentation": "^1.1.0",
+    "serverless-iam-roles-per-function": "^2.0.2",
+    "serverless-reqvalidator-plugin": "^1.0.3",
+    "serverless-webpack": "^5.3.2",
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.3",
+    "webpack": "^4.43.0"
+  },
+  "dependencies": {
+    "aws-xray-sdk": "^3.0.1",
+    "axios": "^0.19.2",
+    "jsonwebtoken": "^8.5.1",
+    "source-map-support": "^0.5.19",
+    "winston": "^3.2.1"
+  }
+}
