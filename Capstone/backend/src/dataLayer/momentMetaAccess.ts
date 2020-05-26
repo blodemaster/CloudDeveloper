@@ -42,7 +42,7 @@ export class MomentMetaAccess {
         return this.docClient.update({
             TableName: this.momentTable,
             Key: {
-                momentId: toUpdate.id,
+                id: toUpdate.id,
                 userId: toUpdate.userId,
             },
             UpdateExpression: "set content = :content, postedAt = :postedAt",
@@ -58,7 +58,7 @@ export class MomentMetaAccess {
         return this.docClient.delete({
             TableName: this.momentTable,
             Key: {
-                momentId,
+                id: momentId,
                 userId,
             }
         }).promise() 

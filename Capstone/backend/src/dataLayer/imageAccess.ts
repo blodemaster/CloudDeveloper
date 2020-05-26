@@ -8,12 +8,12 @@ const XAWS = AWSXRay.captureAWS(AWS)
 export class ImageAccess {
     private readonly docClient: DocumentClient = createDynamoDBClient()
     private readonly imageTable: string = process.env.IMAGE_TABLE
-    private readonly userIdIndex: string = process.env.USER_ID_INDEX
+    private readonly imageSecondaryIndex: string = process.env.IMAGE_SECONDARY_INDEX
 
     async getImagesOfMoment(momentId: string, userId: string) : Promise<Image[]> {
         const result = await this.docClient.query({
             TableName: this.imageTable,
-            IndexName: this.userIdIndex,
+            IndexName: this.imageSecondaryIndex,
             KeyConditionExpression: 'momentId = :momentId, userId = :userId',
             ExpressionAttributeValues: {
                 ":momentId": momentId,
