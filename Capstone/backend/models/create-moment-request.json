@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "createMoment",
+  "type": "object",
+  "properties": {
+    "name": {
+      "content": "string"
+    },
+    "imageIds": {
+        "type": "array",
+        "items": {
+            "type": "string"
+        }
+    }
+    
+  },
+  "required": [
+    "name",
+    "dueDate"
+  ],
+  "additionalProperties": false
+}
