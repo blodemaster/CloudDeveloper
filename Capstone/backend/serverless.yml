@@ -193,7 +193,7 @@ functions:
     events:
       - http:
           method: post
-          path: moments/images
+          path: moments/images/{imageId}
           cors: true
     iamRoleStatements:
       - Effect: Allow
