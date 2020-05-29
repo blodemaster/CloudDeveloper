@@ -12,7 +12,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   logger.info(`Generate upload url with event ${event} for user ${userId}`)
   
   const imageId = event.pathParameters.imageId
-  const signedUrl = getImageSignedUrl(imageId)
+  const signedUrl = await getImageSignedUrl(imageId)
   logger.info("Generated url is ", signedUrl)
 
   return {

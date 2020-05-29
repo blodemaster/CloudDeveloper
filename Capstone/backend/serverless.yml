@@ -24,7 +24,7 @@ plugins:
   - serverless-iam-roles-per-function
   - serverless-reqvalidator-plugin
   - serverless-aws-documentation
-  
+
 custom:
   serverless-offline:
     port: 3003
@@ -48,7 +48,6 @@ custom:
       - name: UpdateMomentRequest
         contentType: application/json
         schema: ${file(models/update-moment-request.json)}
-      
 
 provider:
   name: aws
@@ -62,7 +61,7 @@ provider:
 
   environment:
     MOMENT_TABLE: Moments-${self:provider.stage}
-    IMAGES_TABLE: Moments-Images-${self:provider.stage}
+    IMAGE_TABLE: Moments-Images-${self:provider.stage}
     USER_ID_INDEX: UserIdIndex
     IMAGE_SECONDARY_INDEX: ImageSecondaryIndex
     IMAGES_S3_BUCKET: dj-moment-images-${self:provider.stage}
@@ -72,7 +71,7 @@ functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
     iamRoleStatements:
-      - Effect: "Allow" 
+      - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
           - "xray:PutTelemetryRecords"
@@ -96,7 +95,7 @@ functions:
         Action:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGE_TABLE}/index/${self:provider.environment.IMAGE_SECONDARY_INDEX}
-      - Effect: "Allow" 
+      - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
           - "xray:PutTelemetryRecords"
@@ -116,7 +115,7 @@ functions:
             summary: Create a new moment
             description: Create a new moment
             requestModels:
-              'application/json': CreateMomentRequest
+              "application/json": CreateMomentRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -126,7 +125,7 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGE_TABLE}
-      - Effect: "Allow" 
+      - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
           - "xray:PutTelemetryRecords"
@@ -134,7 +133,7 @@ functions:
           - "*"
 
   UpdateMoment:
-    handler: src/lambda/http/UpdateMoment.handler
+    handler: src/lambda/http/updateMoment.handler
     events:
       - http:
           method: patch
@@ -146,7 +145,7 @@ functions:
             summary: Update a moment
             description: Update a moment
             requestModels:
-              'application/json': UpdateMomentRequest
+              "application/json": UpdateMomentRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -155,17 +154,17 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:PutItem
-            dynamodb:DeleteItem
+          - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGE_TABLE}
-      - Effect: "Allow" 
+      - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
           - "xray:PutTelemetryRecords"
         Resource:
           - "*"
-  
+
   DeleteMoment:
-    handler: src/lambda/http/delteMoment.handler
+    handler: src/lambda/http/deleteMoment.handler
     events:
       - http:
           method: delete
@@ -178,10 +177,9 @@ functions:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.MOMENT_TABLE}
       - Effect: Allow
-        Action:
-            dynamodb:DeleteItem
+        Action: dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGE_TABLE}
-      - Effect: "Allow" 
+      - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
           - "xray:PutTelemetryRecords"
@@ -200,7 +198,7 @@ functions:
         Action:
           - s3:PutObject
         Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*
-      - Effect: "Allow" 
+      - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
           - "xray:PutTelemetryRecords"
@@ -220,7 +218,7 @@ resources:
         RestApiId:
           Ref: ApiGatewayRestApi
 
-    MOMENT_TABLE:
+    MomentTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
@@ -243,11 +241,15 @@ resources:
             Projection:
               ProjectionType: ALL
 
-   IMAGE_TABLE:
+    ImageTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
           - AttributeName: imageId
+            AttributeType: S
+          - AttributeName: momentId
+            AttributeType: S
+          - AttributeName: userId
             AttributeType: S
         KeySchema:
           - AttributeName: imageId
@@ -258,16 +260,16 @@ resources:
           - IndexName: ${self:provider.environment.IMAGE_SECONDARY_INDEX}
             KeySchema:
               - AttributeName: momentId
-                AttributeType: S
+                KeyType: HASH
               - AttributeName: userId
-                AttributeType: S
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
 
     RequestBodyValidator:
       Type: AWS::ApiGateway::RequestValidator
       Properties:
-        Name: 'request-body-validator'
+        Name: "request-body-validator"
         RestApiId:
           Ref: ApiGatewayRestApi
         ValidateRequestBody: true
@@ -280,9 +282,9 @@ resources:
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
-                - '*'
+                - "*"
               AllowedHeaders:
-                - '*'
+                - "*"
               AllowedMethods:
                 - GET
                 - PUT
@@ -300,7 +302,7 @@ resources:
           Statement:
             - Sid: PublicReadForGetBucketObjects
               Effect: Allow
-              Principal: '*'
-              Action: 's3:GetObject'
-              Resource: 'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*'
+              Principal: "*"
+              Action: "s3:GetObject"
+              Resource: "arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*"
         Bucket: !Ref AttachmentsBucket

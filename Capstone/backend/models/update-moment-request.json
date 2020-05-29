@@ -3,8 +3,8 @@
   "title": "updateMoment",
   "type": "object",
   "properties": {
-    "name": {
-      "content": "string"
+    "content": {
+      "type": "string"
     },
     "toAddImageIds": {
       "type": "array",

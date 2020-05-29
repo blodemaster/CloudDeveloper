@@ -14,14 +14,14 @@ const logger = createLogger('S3')
 
 export class S3Access {
     private readonly bucket: string = process.env.IMAGES_S3_BUCKET
-    private readonly urlExpiration: string = process.env.SIGNED_URL_EXPIRATION
+    private readonly urlExpiration = process.env.SIGNED_URL_EXPIRATION
 
     async generateSignedUrl(imageId: string) {
         logger.info("Generate signed url for image ", imageId)
         return s3.getSignedUrl('putObject', {
             Bucket: this.bucket,
             Key: imageId,
-            Expires: this.urlExpiration
+            Expires: parseInt(this.urlExpiration)
           })
     }
 }

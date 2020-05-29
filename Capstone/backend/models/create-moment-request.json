@@ -3,8 +3,8 @@
   "title": "createMoment",
   "type": "object",
   "properties": {
-    "name": {
-      "content": "string"
+    "content": {
+      "type": "string"
     },
     "imageIds": {
         "type": "array",
