@@ -16,8 +16,9 @@ export async function getImageVisitUrl(imageId: string): Promise<string> {
 export async function deleteImage(imageId: string, userId: string) {
   // If the image has an owner then only owner should have access to delete it
   const findOwnerId = await imageAccess.getImageOwnerId(imageId)
-  if (userId !== findOwnerId) {
+
+  if (findOwnerId !== undefined && userId !== findOwnerId) {
     throw new Error ("No access to do")
   }
-  s3Access.deleteImage(imageId);
+  await s3Access.deleteImage(imageId);
 }

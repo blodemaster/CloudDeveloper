@@ -181,7 +181,9 @@ functions:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGE_TABLE}/index/${self:provider.environment.IMAGE_SECONDARY_INDEX}
       - Effect: Allow
-        Action: dynamodb:DeleteItem
+        Action: 
+          - dynamodb:DeleteItem
+          - dynamodb:GetItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGE_TABLE}
       - Effect: "Allow"
         Action:
