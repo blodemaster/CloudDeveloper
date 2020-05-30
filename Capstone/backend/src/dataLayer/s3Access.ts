@@ -24,5 +24,11 @@ export class S3Access {
             Expires: parseInt(this.urlExpiration)
           })
     }
+
+    async generateVisitUrl(imageId: string) {
+      logger.info("Generate visit url for image ", imageId)
+      return `https://${this.bucket}.s3.amazonaws.com/${imageId}`
+    }
+    
 }
 

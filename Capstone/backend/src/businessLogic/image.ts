@@ -6,3 +6,7 @@ export async function getImageSignedUrl(imageId: string): Promise<string> {
     const signedUrl = await s3Access.generateSignedUrl(imageId)
     return signedUrl
 }
+
+export async function getImageVisitUrl(imageId: string): Promise<string> {
+    return s3Access.generateVisitUrl(imageId)
+}

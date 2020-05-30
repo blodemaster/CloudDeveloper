@@ -5,11 +5,10 @@ import { MomentMetaAccess } from '../dataLayer/momentMetaAccess'
 import { ImageAccess } from '../dataLayer/imageAccess'
 import { CreateMomentRequest } from '../request/CreateMomentRequest'
 import { UpdateMomentRequest } from '../request/UpdateMomentRequest'
+import { getImageVisitUrl } from './image'
 
 const momentAccess = new MomentMetaAccess()
 const imageAccess = new ImageAccess()
-
-const bucketName = process.env.IMAGES_S3_BUCKET
 
 export async function getAllMomemts(userId: string): Promise<Moment[]> {
     const momentsMeta = await momentAccess.getMomentsMeta(userId)
@@ -67,7 +66,7 @@ export async function deleteMoment(momentId: string, userId: string, imageIds: s
 }
 
 async function createImage(imageId: string, momentId: string, userId: string) {
-    const imageUrl = `https://${bucketName}.s3.amazonaws.com/${imageId}`
+    const imageUrl = await getImageVisitUrl(imageId)
     return imageAccess.createImage({imageId, momentId, userId, imageUrl})
 }
 

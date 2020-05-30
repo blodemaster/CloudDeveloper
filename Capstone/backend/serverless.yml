@@ -186,8 +186,8 @@ functions:
         Resource:
           - "*"
 
-  GenerateUploadUrl:
-    handler: src/lambda/http/getUploadUrl.handler
+  GenerateUploadAndVisitUrl:
+    handler: src/lambda/http/getUploadAndVisitUrl.handler
     events:
       - http:
           method: post
