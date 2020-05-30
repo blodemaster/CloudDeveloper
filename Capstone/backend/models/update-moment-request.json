@@ -9,19 +9,16 @@
     "toAddImageIds": {
       "type": "array",
       "items": {
-          "type": "string"
+        "type": "string"
       }
     },
     "toDeleteImageIds": {
       "type": "array",
       "items": {
-          "type": "string"
+        "type": "string"
       }
     }
   },
-  "required": [
-    "name",
-    "dueDate"
-  ],
+  "required": ["content"],
   "additionalProperties": false
 }

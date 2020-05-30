@@ -10,14 +10,13 @@ export class ImageAccess {
     private readonly imageTable: string = process.env.IMAGE_TABLE
     private readonly imageSecondaryIndex: string = process.env.IMAGE_SECONDARY_INDEX
 
-    async getImagesOfMoment(momentId: string, userId: string) : Promise<Image[]> {
+    async getImagesOfMoment(momentId: string) : Promise<Image[]> {
         const result = await this.docClient.query({
             TableName: this.imageTable,
             IndexName: this.imageSecondaryIndex,
-            KeyConditionExpression: 'momentId = :momentId, userId = :userId',
+            KeyConditionExpression: 'momentId = :momentId',
             ExpressionAttributeValues: {
                 ":momentId": momentId,
-                ":userId": userId
             }
         }).promise()
 
@@ -40,6 +39,16 @@ export class ImageAccess {
                 imageId
             }
         }).promise() 
+    }
+
+    async getImageOwnerId(imageId: string) {
+        const image = await this.docClient.get({
+            TableName: this.imageTable,
+            Key: {
+                imageId
+            }
+        }).promise();
+        return image.Item?.userId
     }
 }
 

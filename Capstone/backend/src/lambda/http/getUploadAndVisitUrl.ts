@@ -7,7 +7,7 @@ import {
 } from "aws-lambda";
 import { createLogger } from "../../utils/logger";
 import { getUserId } from "../utils";
-import { getImageSignedUrl, getImageVisitUrl } from "../../businessLogic/image";
+import { getImageSignedUrl, getImageVisitUrl } from "../../businessLogic/s3";
 
 const logger = createLogger("generateUploadUrl");
 

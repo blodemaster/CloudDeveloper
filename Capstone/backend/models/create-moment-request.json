@@ -7,16 +7,12 @@
       "type": "string"
     },
     "imageIds": {
-        "type": "array",
-        "items": {
-            "type": "string"
-        }
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
-    
   },
-  "required": [
-    "name",
-    "dueDate"
-  ],
+  "required": ["content", "imageIds"],
   "additionalProperties": false
 }

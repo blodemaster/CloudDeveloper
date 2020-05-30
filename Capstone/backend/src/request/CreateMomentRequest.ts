@@ -1,4 +1,4 @@
 export interface CreateMomentRequest {
-    content: string,
-    imageIds: string[]
+  content: string;
+  imageIds: string[];
 }

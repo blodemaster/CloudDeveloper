@@ -1,5 +1,5 @@
 export interface UpdateMomentRequest {
-    content: string
-    toAddImageIds: string[],
-    toDeleteImageIds: string[],
+  content: string;
+  toAddImageIds: string[];
+  toDeleteImageIds: string[];
 }

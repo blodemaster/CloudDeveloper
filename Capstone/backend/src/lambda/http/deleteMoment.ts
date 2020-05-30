@@ -11,9 +11,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   const userId = getUserId(event)
   logger.info(`delete a todo item for user ${userId} with event ${event}`)
 
-  const toDeleteImageIds: string[] = JSON.parse(event.body)
-
-  await deleteMoment(momentId, userId, toDeleteImageIds)
+  await deleteMoment(momentId, userId)
   return {
     statusCode: 204,
     headers: {

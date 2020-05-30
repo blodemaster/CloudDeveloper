@@ -177,6 +177,10 @@ functions:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.MOMENT_TABLE}
       - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGE_TABLE}/index/${self:provider.environment.IMAGE_SECONDARY_INDEX}
+      - Effect: Allow
         Action: dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGE_TABLE}
       - Effect: "Allow"
@@ -198,6 +202,28 @@ functions:
         Action:
           - s3:PutObject
         Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*
+      - Effect: "Allow"
+        Action:
+          - "xray:PutTraceSegments"
+          - "xray:PutTelemetryRecords"
+        Resource:
+          - "*"
+
+  DeleteImage:
+    handler: src/lambda/http/deleteImage.handler
+    events:
+      - http:
+          method: delete
+          path: moments/images/{imageId}
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:DeleteItem
+        Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*
+      - Effect: Allow
+        Action: dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.IMAGE_TABLE}
       - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
