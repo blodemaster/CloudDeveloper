@@ -109,7 +109,7 @@ export function MomentDisplay(props: {
             </div>
           </Row>
         </Card.Title>
-        <Card.Subtitle>
+        <Card.Subtitle style={{color: "gray", paddingBottom: "4px", fontSize: "12px"}}>
           <span>{`Updated at ${dateFormat(moment.postedAt)}`}</span>
         </Card.Subtitle>
 

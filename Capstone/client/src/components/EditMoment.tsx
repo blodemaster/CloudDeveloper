@@ -167,7 +167,7 @@ export function EditMoment(props: EditMomentProps): JSX.Element {
           <Card.Body>
             <Form>
               <Form.Group controlId="momentContent">
-                <Form.Label>Moment Content</Form.Label>
+                <Form.Label>Moment Text</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={3}
