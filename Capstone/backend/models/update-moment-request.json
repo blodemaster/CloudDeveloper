@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "updateMoment",
+  "type": "object",
+  "properties": {
+    "content": {
+      "type": "string"
+    },
+    "toAddImageIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "toDeleteImageIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["content"],
+  "additionalProperties": false
+}
